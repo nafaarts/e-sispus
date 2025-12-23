@@ -38,8 +38,8 @@ DB_CHARSET=utf8mb4
 
 ## Akun Default
 Seed bawaan berada di `docker/mysql/init.sql`:
-- Admin: `admin / password`
-- Operator: `operator / password`
+- Admin: `admin@gmail.com / password`
+- Operator: `operator@gmail.com / password`
 
 ## Instalasi dengan Docker
 
