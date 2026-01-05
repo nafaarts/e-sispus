@@ -24,6 +24,7 @@
                 <input type="date" name="start" class="form-control form-control-sm" placeholder="Dari Tanggal" value="<?= $start ?>">
                 <input type="date" name="end" class="form-control form-control-sm" placeholder="Sampai Tanggal" value="<?= $end ?>">
                 <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+                <button id="resetFilter" type="reset" class="btn btn-sm btn-secondary">Reset</button>
             </form>
 
             <script>
@@ -48,6 +49,12 @@
                     }
                     
                     window.location.href = '/index.php?url=peminjaman/index&start=' + start + '&end=' + end;
+                });
+
+                // Reset filter
+                document.getElementById('resetFilter').addEventListener('click', function(e) {
+                    e.preventDefault(); // Hentikan reset
+                    window.location.href = '/index.php?url=peminjaman/index';
                 });
             </script>
         </div>
