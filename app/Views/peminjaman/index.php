@@ -17,6 +17,41 @@
         <a href="/index.php?url=peminjaman/create" class="btn btn-sm btn-primary">Tambah Peminjaman</a>
     </div>
     <div class="card-body">
+        <!-- filter -->
+        <div class="mb-3" style="width: 500px;">
+            <label for="start" class="mb-2">Filter Berdasarkan Tanggal Pinjam</label>
+            <form id="filterForm" action="/index.php?url=peminjaman/index" method="get"  class="d-flex align-items-center gap-2">
+                <input type="date" name="start" class="form-control form-control-sm" placeholder="Dari Tanggal" value="<?= $start ?>">
+                <input type="date" name="end" class="form-control form-control-sm" placeholder="Sampai Tanggal" value="<?= $end ?>">
+                <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+            </form>
+
+            <script>
+                // Validasi form filter
+                document.getElementById('filterForm').addEventListener('submit', function(e) {
+                    e.preventDefault(); // Hentikan submit
+                    
+                    // Ambil nilai input
+                    const start = this.start.value;
+                    const end = this.end.value;
+                    
+                    // Cek apakah kedua tanggal diisi
+                    if (!start || !end) {
+                        alert('Mohon isi kedua tanggal filter!');
+                        return
+                    }
+
+                    // Cek apakah tanggal pinjam lebih besar dari tanggal kembal
+                    if (start > end) {
+                        alert('Tanggal pinjam tidak boleh lebih besar dari tanggal kembal!');
+                        return
+                    }
+                    
+                    window.location.href = '/index.php?url=peminjaman/index&start=' + start + '&end=' + end;
+                });
+            </script>
+        </div>
+
         <div class="table-responsive">
             <!-- Tabel data peminjaman -->
             <table class="table table-striped table-hover table-sm">

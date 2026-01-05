@@ -49,6 +49,31 @@ class Peminjaman
         return $stmt->fetchAll();
     }
 
+    // Mengambil data peminjam berdasarkan tanggal
+    public static function whereBetweenTanggal($start, $end): array
+    {
+        // Dapatkan koneksi database
+        $pdo = Database::getInstance()->pdo();
+        // Query untuk mengambil data peminjaman dengan join ke siswa dan users
+        $sql = '
+            SELECT p.*, s.nama_siswa, u.name as petugas
+            FROM peminjaman p
+            JOIN siswa s ON p.nis = s.nis
+            JOIN users u ON p.id_user = u.id
+            WHERE p.tanggal_pinjam BETWEEN :start AND :end
+            ORDER BY p.created_at DESC
+        ';
+        // Persiapkan query
+        $stmt = $pdo->prepare($sql);
+        // Bind parameter start dan end
+        $stmt->bindValue(':start', $start, \PDO::PARAM_STR);
+        $stmt->bindValue(':end', $end, \PDO::PARAM_STR);
+        // Eksekusi query
+        $stmt->execute();
+        // Kembalikan hasil sebagai array
+        return $stmt->fetchAll();
+    }
+
     // Mencari peminjaman berdasarkan ID
     public static function find(int $id): ?array
     {

@@ -18,9 +18,24 @@ class PeminjamanController extends Controller
     {
         Middleware::ensureAuthenticated();
         Middleware::ensureCan('manage_peminjaman');
-        // Ambil semua data peminjaman
-        $peminjamans = Peminjaman::all();
-        $this->view('peminjaman/index', ['peminjamans' => $peminjamans]);
+        
+        // Ambil parameter start dan end dari URL
+        $start = $_GET['start'] ?? null;
+        $end = $_GET['end'] ?? null;
+        
+        // Jika ada parameter start dan end, filter data peminjaman
+        if (isset($start) && isset($end)) {
+            $peminjamans = Peminjaman::whereBetweenTanggal($start, $end);
+        } else {
+            // Ambil semua data peminjaman
+            $peminjamans = Peminjaman::all();
+        }
+
+        $this->view('peminjaman/index', [
+            'peminjamans' => $peminjamans, 
+            'start' => $start, 
+            'end' => $end
+        ]);
     }
 
     // Menampilkan form transaksi peminjaman baru
